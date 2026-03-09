@@ -1,35 +1,45 @@
 // AI Webpage Summary - Background Script
-// Handles API calls to bypass CORS and manage global state
+// Handles API calls to pmdirectory.net backend
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "callAI") {
-    generateSummary(request.text, request.title)
-      .then(summary => sendResponse({ summary }))
+    generateSummary(request.text, request.title, request.url)
+      .then(data => sendResponse(data))
       .catch(error => {
-        console.error(error);
-        sendResponse({ error: "Failed to generate summary" });
+        console.error('Extension Background Error:', error);
+        sendResponse({ error: "Failed to generate summary. Please check if the pmdirectory.net backend is active." });
       });
     return true; // async
   }
 });
 
-async function generateSummary(text, title) {
-  // In a production app, you would call your Vercel/Cloudflare worker here.
-  // For this build, we'll simulate the logic or call an LLM endpoint directly
-  // if an API key is provided via storage.
+async function generateSummary(text, title, url) {
+  // Use anonymousId to track uniqueness without accounts
+  let { anonymousId } = await chrome.storage.local.get('anonymousId');
+  if (!anonymousId) {
+    anonymousId = 'anon_' + Math.random().toString(36).substring(2, 15);
+    await chrome.storage.local.set({ anonymousId });
+  }
 
-  const prompt = `Summarize the following webpage content titled "${title}". 
-  Provide a 1-sentence overview, followed by 3-5 key bullet points. 
-  Content: ${text}`;
-
-  // TEMPLATE: Replace with your actual backend endpoint
-  // const API_URL = "https://your-ai-worker.vercel.app/api/summarize";
-  // const response = await fetch(API_URL, { ... });
-
-  // Simulation of AI response for initial build
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(`**Overview:** This page discusses ${title}.\n\n* Key point about the main topic.\n* Important insight from the article content.\n* Significant data or conclusion reached.\n* Final takeaway for the reader.`);
-    }, 1500);
+  const API_URL = "https://pmdirectory.net/api/summarize";
+  
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      url,
+      title,
+      text: text.substring(0, 15000), // Protect payload size
+      anonymousId
+    })
   });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+  }
+
+  return await response.json();
 }

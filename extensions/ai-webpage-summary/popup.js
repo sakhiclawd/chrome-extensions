@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
   const summarizeBtn = document.getElementById('summarizeBtn');
-  const notionBtn = document.getElementById('notionBtn');
+  const shareBtn = document.getElementById('shareBtn');
   const summaryBox = document.getElementById('summary');
   const readingTimeText = document.getElementById('readingTime');
   const loading = document.getElementById('loading');
   const content = document.getElementById('content');
+  const statusLink = document.getElementById('statusLink');
 
-  // Request initial page data (like word count/reading time)
+  let currentLibraryUrl = '';
+
+  // Request initial page data
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {action: "getPageInfo"}, function(response) {
       if (response && response.readingTime) {
@@ -21,28 +24,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {action: "summarize"}, function(response) {
-        loading.style.display = 'none';
-        content.style.display = 'block';
-
         if (response && response.summary) {
+          loading.style.display = 'none';
+          content.style.display = 'block';
           summaryBox.innerHTML = formatSummary(response.summary);
           summarizeBtn.style.display = 'none';
-          notionBtn.style.display = 'flex';
+          shareBtn.style.display = 'flex';
+          
+          if (response.libraryUrl) {
+            currentLibraryUrl = response.libraryUrl;
+            statusLink.innerHTML = `<a href="${currentLibraryUrl}" target="_blank">View in Community Library ↗</a>`;
+          }
         } else {
-          summaryBox.innerText = "Error: Could not generate summary. Check your connection or API key.";
+          loading.style.display = 'none';
+          content.style.display = 'block';
+          summaryBox.innerText = response.error || "Error: Could not generate summary.";
         }
       });
     });
   });
 
-  notionBtn.addEventListener('click', function() {
-    // Placeholder for Notion API integration
-    alert("Notion export logic would go here. Configure your Notion Token in options.");
+  shareBtn.addEventListener('click', function() {
+    if (currentLibraryUrl) {
+      navigator.clipboard.writeText(currentLibraryUrl).then(() => {
+        const originalText = shareBtn.innerText;
+        shareBtn.innerText = '✅ Link Copied!';
+        setTimeout(() => { shareBtn.innerText = originalText; }, 2000);
+      });
+    }
   });
 });
 
 function formatSummary(text) {
-  // Simple markdown-ish to HTML converter
   return text
     .replace(/\n/g, '<br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
