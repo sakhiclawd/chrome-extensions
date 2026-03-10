@@ -1,107 +1,225 @@
 <!DOCTYPE html>
+<html>
+<head>
   <meta charset="UTF-8">
   <style>
-    body {
-      width: 350px;
-      padding: 15px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #ffffff;
+    :root {
+      --primary: #f97316; /* Orange */
+      --primary-hover: #ea580c;
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #666666;
+      --border: #f0f0f0;
+      --card-bg: #fafafa;
     }
+    
+    body {
+      width: 380px;
+      padding: 0;
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      padding: 24px;
+    }
+
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 15px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
+      margin-bottom: 24px;
     }
-    .title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #111;
-    }
-    #loading {
-      text-align: center;
-      display: none;
-      padding: 30px 10px;
-      font-size: 14px;
-      color: #666;
-    }
-    #content {
-      display: block;
-    }
-    .summary-box {
-      background: #f8fafc;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
-      line-height: 1.6;
-      font-size: 14px;
-      color: #334155;
-      max-height: 350px;
-      overflow-y: auto;
-    }
-    .meta {
+
+    .logo {
       display: flex;
-      justify-content: space-between;
-      margin-top: 12px;
-      font-size: 11px;
-      color: #94a3b8;
-    }
-    .status-link a {
-      color: #007AFF;
-      text-decoration: none;
-    }
-    .status-link a:hover {
-      text-decoration: underline;
-    }
-    .btn {
-      background: #007AFF;
-      color: white;
-      border: none;
-      padding: 12px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      margin-top: 15px;
+      align-items: center;
+      gap: 8px;
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--primary);
+    }
+
+    .logo-icon {
+      width: 20px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
+      color: white;
+      font-size: 12px;
+    }
+
+    .title-row {
+      margin-bottom: 16px;
+    }
+
+    .page-title {
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    #loading {
+      text-align: center;
+      display: none;
+      padding: 40px 20px;
+      font-weight: 600;
+      color: var(--primary);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    .summary-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    }
+
+    .summary-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--primary);
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .summary-box {
+      line-height: 1.6;
+      font-size: 14px;
+      color: #333;
+      max-height: 350px;
+      overflow-y: auto;
+    }
+
+    .summary-box strong {
+      font-weight: 700;
+      color: var(--fg);
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background: var(--fg);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+
+    .library-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(249, 115, 22, 0.05);
       transition: background 0.2s;
     }
-    .btn:hover {
-      background: #005ecb;
-    }
-    .btn-secondary {
-      background: #f1f5f9;
-      color: #475569;
-    }
-    .btn-secondary:hover {
-      background: #e2e8f0;
+
+    .library-link:hover {
+      background: rgba(249, 115, 22, 0.1);
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="title">AI Webpage Summary 🌸</div>
-  </div>
-
-  <div id="loading">
-    Analyzing content...
-  </div>
-
-  <div id="content">
-    <div id="summary" class="summary-box">
-      Click below to generate an AI summary and save it to the PM Directory library.
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">P</div>
+        PM Directory
+      </div>
     </div>
-    <div class="meta">
-      <span id="readingTime"></span>
-      <span id="statusLink" class="status-link"></span>
+
+    <div id="loading">
+      Synthesizing High-Signal Summary... 🌸
     </div>
-    <button id="summarizeBtn" class="btn">Summarize & Save</button>
-    <button id="shareBtn" class="btn btn-secondary" style="display:none;">Copy Library Link</button>
+
+    <div id="content">
+      <div class="title-row">
+        <h1 id="pageTitle" class="page-title">Loading page info...</h1>
+      </div>
+      
+      <div class="meta">
+        <span id="readingTime">⏱️ -- min read</span>
+      </div>
+
+      <div class="summary-container" id="summaryContainer" style="display: none;">
+        <div class="summary-header">
+          ✦ AI Synthesis
+        </div>
+        <div id="summary" class="summary-box"></div>
+      </div>
+
+      <button id="summarizeBtn" class="btn btn-primary">Summarize Now</button>
+      <div id="libraryLinkArea"></div>
+    </div>
   </div>
 
   <script src="popup.js"></script>

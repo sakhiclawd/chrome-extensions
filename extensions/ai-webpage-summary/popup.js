@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
   const summarizeBtn = document.getElementById('summarizeBtn');
-  const notionBtn = document.getElementById('notionBtn');
   const summaryBox = document.getElementById('summary');
   const readingTimeText = document.getElementById('readingTime');
+  const pageTitleText = document.getElementById('pageTitle');
   const loading = document.getElementById('loading');
   const content = document.getElementById('content');
+  const summaryContainer = document.getElementById('summaryContainer');
+  const libraryLinkArea = document.getElementById('libraryLinkArea');
 
-  // Request initial page data (like word count/reading time)
+  // Request initial page data
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    if (tabs[0].title) {
+      pageTitleText.innerText = tabs[0].title;
+    }
+    
     chrome.tabs.sendMessage(tabs[0].id, {action: "getPageInfo"}, function(response) {
       if (response && response.readingTime) {
         readingTimeText.innerText = `⏱️ ~${response.readingTime} min read`;
@@ -25,33 +31,27 @@ document.addEventListener('DOMContentLoaded', function() {
         content.style.display = 'block';
 
         if (response && response.summary) {
+          summaryContainer.style.display = 'block';
           summaryBox.innerHTML = formatSummary(response.summary);
           summarizeBtn.style.display = 'none';
           
-          // Show the library link if available
           if (response.libraryUrl) {
-            const linkArea = document.createElement('div');
-            linkArea.style.marginTop = '15px';
-            linkArea.style.fontSize = '12px';
-            linkArea.innerHTML = `📖 <a href="${response.libraryUrl}" target="_blank" style="color: #007AFF; text-decoration: none;">View in your PM Library</a>`;
-            content.appendChild(linkArea);
+            libraryLinkArea.innerHTML = `
+              <a href="${response.libraryUrl}" target="_blank" class="library-link">
+                📖 View in your PM Library
+              </a>`;
           }
         } else {
+          summaryContainer.style.display = 'block';
           const errMsg = response && response.error ? response.error : "Could not generate summary.";
           summaryBox.innerText = "Error: " + errMsg;
         }
       });
     });
   });
-
-  notionBtn.addEventListener('click', function() {
-    // Placeholder for Notion API integration
-    alert("Notion export logic would go here. Configure your Notion Token in options.");
-  });
 });
 
 function formatSummary(text) {
-  // Simple markdown-ish to HTML converter
   return text
     .replace(/\n/g, '<br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
