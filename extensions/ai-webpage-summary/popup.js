@@ -27,7 +27,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (response && response.summary) {
           summaryBox.innerHTML = formatSummary(response.summary);
           summarizeBtn.style.display = 'none';
-          // notionBtn.style.display = 'flex'; // Removed for now to keep it clean
+          
+          // Show the library link if available
+          if (response.libraryUrl) {
+            const linkArea = document.createElement('div');
+            linkArea.style.marginTop = '15px';
+            linkArea.style.fontSize = '12px';
+            linkArea.innerHTML = `📖 <a href="${response.libraryUrl}" target="_blank" style="color: #007AFF; text-decoration: none;">View in your PM Library</a>`;
+            content.appendChild(linkArea);
+          }
         } else {
           const errMsg = response && response.error ? response.error : "Could not generate summary.";
           summaryBox.innerText = "Error: " + errMsg;
