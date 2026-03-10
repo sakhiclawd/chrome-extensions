@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function formatSummary(text) {
   return text
-    .replace(/\n/g, '<br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\* (.*?)(?:<br>|$)/g, '• $1<br>');
+    .replace(/\* (.*?)(?:\n|$)/g, '• $1<br>')
+    .replace(/\n/g, '<br>');
 }
