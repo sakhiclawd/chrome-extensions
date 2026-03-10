@@ -4,7 +4,7 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "callAI") {
     generateSummary(request.text, request.title, request.url)
-      .then(summary => sendResponse({ summary }))
+      .then(result => sendResponse(result))
       .catch(error => {
         console.error(error);
         sendResponse({ error: "Failed to generate summary: " + error.message });
@@ -38,7 +38,10 @@ async function generateSummary(text, title, url) {
     }
 
     const data = await response.json();
-    return data.summary;
+    return {
+      summary: data.summary,
+      libraryUrl: data.libraryUrl
+    };
   } catch (error) {
     console.error('API Error:', error);
     throw error;
