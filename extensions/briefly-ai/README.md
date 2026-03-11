@@ -12,7 +12,7 @@ A lightweight Chrome Extension (Manifest V3) that provides high-signal AI summar
 1. Clone this repository: `git clone https://github.com/sakhiclawd/chrome-extensions.git`
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable **Developer mode** (toggle in the top right).
-4. Click **Load unpacked** and select the `extensions/ai-webpage-summary` folder.
+4. Click **Load unpacked** and select the `extensions/briefly-ai` folder.
 
 ## Architecture
 - **Manifest V3:** Modern Chrome extension standard.
