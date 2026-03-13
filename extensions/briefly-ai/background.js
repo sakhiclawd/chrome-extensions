@@ -4,8 +4,9 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "callAI") {
     generateSummary(request.text, request.title, request.url)
-      .then(result => sendResponse(result))
+      .then(summary => sendResponse({ summary }))
       .catch(error => {
+        console.error(error);
         sendResponse({ error: "Failed to generate summary: " + error.message });
       });
     return true; // async
@@ -14,8 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 async function generateSummary(text, title, url) {
   // Use the live Vercel API endpoint for the PM Directory
-  // Added 'www.' to avoid 307 redirect which can strip the POST body
-  const API_URL = "https://www.pmdirectory.net/api/summarize";
+  const API_URL = "https://pmdirectory.net/api/summarize";
 
   try {
     const response = await fetch(API_URL, {
@@ -37,11 +37,9 @@ async function generateSummary(text, title, url) {
     }
 
     const data = await response.json();
-    return {
-      summary: data.summary,
-      libraryUrl: data.libraryUrl
-    };
+    return data.summary;
   } catch (error) {
+    console.error('API Error:', error);
     throw error;
   }
 }
