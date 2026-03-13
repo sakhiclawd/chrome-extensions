@@ -6,7 +6,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     generateSummary(request.text, request.title, request.url)
       .then(result => sendResponse(result))
       .catch(error => {
-        console.error(error);
         sendResponse({ error: "Failed to generate summary: " + error.message });
       });
     return true; // async
@@ -43,7 +42,6 @@ async function generateSummary(text, title, url) {
       libraryUrl: data.libraryUrl
     };
   } catch (error) {
-    console.error('API Error:', error);
     throw error;
   }
 }
