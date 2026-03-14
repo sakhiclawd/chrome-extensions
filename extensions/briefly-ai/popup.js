@@ -6,11 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
   const loading = document.getElementById('loading');
   const content = document.getElementById('content');
 
+  let originalReadingTime = 0;
+
   // Request initial page data (like word count/reading time)
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
     chrome.tabs.sendMessage(tabs[0].id, {action: "getPageInfo"}, function(response) {
       if (response && response.readingTime) {
-        readingTimeText.innerText = `⏱️ ~${response.readingTime} min read`;
+        originalReadingTime = response.readingTime;
+        readingTimeText.innerText = `⏱️ ~${originalReadingTime} min read`;
       }
     });
   });
@@ -27,7 +30,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (response && response.summary) {
           summaryBox.innerHTML = formatSummary(response.summary);
           summarizeBtn.style.display = 'none';
-          // notionBtn.style.display = 'flex'; // Removed for now to keep it clean
+          
+          // Calculate and display time saved
+          const summaryWordCount = response.summary.split(/\s+/).length;
+          const summaryReadingTime = Math.ceil(summaryWordCount / 200) || 1;
+          readingTimeText.innerHTML = `⏱️ <span style="text-decoration: line-through; opacity: 0.6;">${originalReadingTime} min</span> ➔ <strong>${summaryReadingTime} min read</strong>`;
+          
         } else {
           const errMsg = response && response.error ? response.error : "Could not generate summary.";
           summaryBox.innerText = "Error: " + errMsg;
