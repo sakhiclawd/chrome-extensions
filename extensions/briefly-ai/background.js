@@ -27,7 +27,8 @@ async function generateSummary(text, title, url) {
         text: text,
         title: title,
         url: url,
-        anonymousId: 'chrome-extension-user'
+        anonymousId: 'chrome-extension-user',
+        prompt: "Summarize the following text. The summary length should be proportional to the source length (approx 10-15% of source), ranging from a 1-minute read for short articles to a 5-minute read for very long ones. Use markdown for structure."
       })
     });
 

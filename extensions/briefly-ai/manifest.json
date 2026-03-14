@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "AI Webpage Summary",
+  "name": "Briefly AI",
   "version": "1.0",
   "description": "Get quick AI summaries of long content with one click.",
   "permissions": ["activeTab", "scripting", "storage"],

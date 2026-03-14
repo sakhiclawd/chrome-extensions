@@ -41,7 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
           
           // Calculate and display time saved
           const summaryWordCount = response.summary.trim().split(/\s+/).length;
-          const summaryReadingTime = Math.ceil(summaryWordCount / 200) || 1;
+          let summaryReadingTime = Math.ceil(summaryWordCount / 200);
+          
+          // Ensure a variable summary time based on length, min 1, max 5 for a summary
+          if (summaryReadingTime < 1) summaryReadingTime = 1;
+          if (summaryReadingTime > 5) summaryReadingTime = 5;
+          
           readingTimeText.innerHTML = `<span style="text-decoration: line-through; opacity: 0.6;">${originalReadingTime} min</span> &rarr; <strong>${summaryReadingTime} min read</strong>`;
           
         } else {
