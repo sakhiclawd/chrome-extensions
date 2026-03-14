@@ -1,24 +1,19 @@
-# Briefly AI: AI Webpage Summary
+# Store Description: Briefly AI
 
-**Get instant, AI-powered summaries of any webpage in a single click!**
+## Summary
+Briefly AI is a minimalist, powerful Chrome extension designed for professionals, students, and researchers. It uses advanced AI to summarize any web page, article, or blog post into concise, readable bullet points. Stop drowning in text—get the gist in seconds.
 
-Briefly AI is your essential Chrome extension for quickly distilling lengthy articles, news, and reports into concise, easy-to-digest summaries. Save time, absorb more information, and stay informed without the information overload.
+## Key Features
+- **Instant Summarization:** Summarize long-form content with a single click.
+- **V3 Native:** Built on Chrome Manifest V3 for maximum security and performance.
+- **Privacy Focused:** Only processes text on the current page when requested.
+- **Minimalist UI:** No clutter, just the information you need.
 
-## ✨ Features:
-
-*   **One-Click Summaries:** Instantly generate an overview and key bullet points for any webpage.
-*   **AI-Powered Insights:** Leverage advanced AI to intelligently extract the most critical information.
-*   **Estimated Reading Time:** See how long it would take to read the original article.
-*   **Clean & Intuitive UI:** A simple, distraction-free pop-up provides summaries at a glance.
-*   **Boost Productivity:** Quickly grasp the essence of content, making your browsing more efficient.
-
-## 🚀 How it Works:
-
-1.  Simply navigate to any webpage you want to summarize.
-2.  Click the Briefly AI extension icon in your toolbar.
-3.  Receive an instant summary, including an overview and key takeaways.
-
-Whether you're a student, researcher, professional, or just an avid reader, Briefly AI empowers you to consume information smarter, not harder.
+## How to Use
+1. Pin Briefly AI to your toolbar.
+2. Navigate to any article or long webpage.
+3. Click the extension icon and select "Summarize".
+4. Review the key points instantly.
 
 ---
-*Built by Sakhi for Sou. 🌸*
+Built by Krit for Sourabh Pradhan.

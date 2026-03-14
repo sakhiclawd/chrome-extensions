@@ -1,36 +1,23 @@
-# Briefly AI: Chrome Web Store Screenshot Guide for Sou 🌸
+# Screenshot Guide for Briefly AI
 
-Hi Sou! This guide will help you capture compelling screenshots for the Briefly AI Chrome Web Store listing. Good screenshots are crucial for attracting users!
+To prepare the Briefly AI listing for the Chrome Web Store, please capture the following screenshots. For best results, use a window size of **1280x800**.
 
-## Best Practices for Screenshots:
+## 1. The "Hero" Shot (Main View)
+- **Target:** A well-known news article or blog post (e.g., a tech announcement or a deep-dive essay).
+- **Action:** Open the Briefly AI popup so the summary is clearly visible over the article background.
+- **Focus:** Show the "Summarize" button and the generated bullet points.
 
-1.  **Clean Browser:** Use a fresh Chrome profile or incognito window to ensure no other extensions or personal data are visible.
-2.  **Relevant Content:** Choose a variety of interesting, publicly accessible webpages for demonstration. Examples: a long news article, a blog post, a Wikipedia page.
-3.  **Focus on the UI:**
-    *   **Screenshot 1 (Action Shot):** Capture a webpage with the Briefly AI pop-up open, clearly showing a generated summary. Ensure the pop-up is fully visible and readable.
-    *   **Screenshot 2 (Before & After/Feature Highlight):** You might consider a "before" shot of a long article and an "after" with the summary, or highlight the "Estimated Reading Time" feature.
-    *   **Screenshot 3 (Icon in Toolbar):** A shot showing the Briefly AI icon pinned to the Chrome toolbar, making it easy for users to identify.
-4.  **Clarity & Readability:**
-    *   Ensure all text in the pop-up and relevant parts of the webpage are sharp and legible.
-    *   Avoid busy backgrounds that distract from the extension.
-    *   Use a consistent theme or background color if possible.
-5.  **Dimensions & Format:**
-    *   **Recommended Size:** Chrome Web Store typically recommends screenshots with a 1280x800 or 640x400 aspect ratio (or similar widescreen format). Aim for high resolution.
-    *   **Format:** PNG or JPEG. PNG is generally better for screenshots with text.
-6.  **Annotations (Optional):** If you use an image editor, consider adding subtle arrows or callouts to highlight key features, but keep it clean and professional.
+## 2. The "Action" Shot (Before/After)
+- **Target:** A very long, text-heavy page.
+- **Action:** Crop the screenshot to show the sidebar/popup with the summary highlights compared to the massive scrollbar of the original page.
 
-## Steps to Capture:
+## 3. The "Clean Design" Shot
+- **Target:** Any clean webpage.
+- **Action:** Highlight the minimalist UI of the extension. Show the settings or the "About" section if available.
 
-1.  **Open Chrome:** Start a clean browser session.
-2.  **Navigate:** Go to a suitable webpage (e.g., `https://en.wikipedia.org/wiki/Artificial_intelligence`).
-3.  **Activate Extension:** Click the Briefly AI icon in your toolbar.
-4.  **Capture:** Use your operating system's screenshot tool to capture the desired area.
-    *   *Windows:* Snipping Tool (Win+Shift+S) or Print Screen.
-    *   *macOS:* Cmd+Shift+4.
-    *   *Linux:* Spectacle, Gnome Screenshot, or equivalent.
-5.  **Review:** Check each screenshot for clarity, composition, and correct feature display.
-
-Aim for 3-5 high-quality screenshots that showcase the extension's value proposition.
+## 4. Branding (Promotional Tile)
+- **Format:** 440x280 (Small Tile) and 1400x560 (Large Tile).
+- **Action:** Place the `icon_new.svg` centered on a blue gradient background with the text "Briefly AI: Summaries in Seconds".
 
 ---
-*Built by Sakhi for Sou. 🌸*
+Built by Krit for Sourabh Pradhan.

@@ -24,4 +24,4 @@ A lightweight Chrome Extension (Manifest V3) that provides one-click summaries o
 To connect to your own AI service, update the `generateSummary` function in `background.js` to point to your backend endpoint.
 
 ---
-Built by Sakhi for Sou. 🌸
+Built by Krit for Sourabh Pradhan.
