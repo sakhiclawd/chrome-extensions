@@ -14,12 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     chrome.tabs.sendMessage(tabs[0].id, {action: "getPageInfo"}, function(response) {
       if (chrome.runtime.lastError) {
-        readingTimeText.innerText = "⚠️ Unable to read page.";
+        readingTimeText.innerText = "Unable to read page.";
         return;
       }
       if (response && response.readingTime) {
         originalReadingTime = response.readingTime;
-        readingTimeText.innerText = `⏱️ ~${originalReadingTime} min read`;
+        readingTimeText.innerText = `~${originalReadingTime} min read`;
       }
     });
   });
@@ -62,9 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function formatSummary(text) {
   // Simple markdown-ish to HTML converter
   return text
+    .replace(/###\s*(.*?)(?:\n|$)/g, '<strong>$1</strong><br>')
     .replace(/\n/g, '<br>')
-    .replace(/### (.*?)(?:<br>|$)/g, '<strong>$1</strong><br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\* (.*?)(?:<br>|$)/g, '• $1<br>')
-    .replace(/- (.*?)(?:<br>|$)/g, '• $1<br>');
+    .replace(/^[\s]*[\*\-]\s*(.*?)(?:\n|$)/gm, '• $1<br>')
+    .replace(/<br>[\s]*[\*\-]\s*(.*?)(?:<br>|$)/g, '<br>• $1<br>');
 }
