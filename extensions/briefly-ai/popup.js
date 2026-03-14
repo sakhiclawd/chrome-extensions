@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
           // Calculate and display time saved
           const summaryWordCount = response.summary.trim().split(/\s+/).length;
           const summaryReadingTime = Math.ceil(summaryWordCount / 200) || 1;
-          readingTimeText.innerHTML = `⏱️ <span style="text-decoration: line-through; opacity: 0.6;">${originalReadingTime} min</span> ➔ <strong>${summaryReadingTime} min read</strong>`;
+          readingTimeText.innerHTML = `<span style="text-decoration: line-through; opacity: 0.6;">${originalReadingTime} min</span> ➔ <strong>${summaryReadingTime} min read</strong>`;
           
         } else {
           const errMsg = response && response.error ? response.error : "API returned an empty summary.";
@@ -63,6 +63,8 @@ function formatSummary(text) {
   // Simple markdown-ish to HTML converter
   return text
     .replace(/\n/g, '<br>')
+    .replace(/### (.*?)(?:<br>|$)/g, '<strong>$1</strong><br>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\* (.*?)(?:<br>|$)/g, '• $1<br>');
+    .replace(/\* (.*?)(?:<br>|$)/g, '• $1<br>')
+    .replace(/- (.*?)(?:<br>|$)/g, '• $1<br>');
 }
