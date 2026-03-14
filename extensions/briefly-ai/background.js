@@ -15,7 +15,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 async function generateSummary(text, title, url) {
   // Use the live Vercel API endpoint for the PM Directory
-  const API_URL = "https://pmdirectory.net/api/summarize";
+  const API_URL = "https://www.pmdirectory.net/api/summarize";
 
   try {
     const response = await fetch(API_URL, {

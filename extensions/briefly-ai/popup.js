@@ -27,18 +27,21 @@ document.addEventListener('DOMContentLoaded', function() {
         loading.style.display = 'none';
         content.style.display = 'block';
 
-        if (response && response.summary) {
+        if (response && response.summary && response.summary.trim().length > 0) {
           summaryBox.innerHTML = formatSummary(response.summary);
           summarizeBtn.style.display = 'none';
           
           // Calculate and display time saved
-          const summaryWordCount = response.summary.split(/\s+/).length;
+          const summaryWordCount = response.summary.trim().split(/\s+/).length;
           const summaryReadingTime = Math.ceil(summaryWordCount / 200) || 1;
           readingTimeText.innerHTML = `⏱️ <span style="text-decoration: line-through; opacity: 0.6;">${originalReadingTime} min</span> ➔ <strong>${summaryReadingTime} min read</strong>`;
           
         } else {
-          const errMsg = response && response.error ? response.error : "Could not generate summary.";
+          const errMsg = response && response.error ? response.error : "API returned an empty summary.";
           summaryBox.innerText = "Error: " + errMsg;
+          // Restore UI state
+          loading.style.display = 'none';
+          content.style.display = 'block';
         }
       });
     });
