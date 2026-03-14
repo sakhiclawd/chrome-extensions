@@ -10,7 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Request initial page data (like word count/reading time)
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    if (!tabs[0] || !tabs[0].id) return;
+    
     chrome.tabs.sendMessage(tabs[0].id, {action: "getPageInfo"}, function(response) {
+      if (chrome.runtime.lastError) {
+        readingTimeText.innerText = "⚠️ Unable to read page.";
+        return;
+      }
       if (response && response.readingTime) {
         originalReadingTime = response.readingTime;
         readingTimeText.innerText = `⏱️ ~${originalReadingTime} min read`;
