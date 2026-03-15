@@ -1,4 +1,4 @@
-# AI Webpage Summary 🌸
+# Briefly AI
 
 A lightweight Chrome Extension (Manifest V3) that provides one-click summaries of any webpage using AI.
 
@@ -9,10 +9,10 @@ A lightweight Chrome Extension (Manifest V3) that provides one-click summaries o
 - **Export to Notion:** (Planned) Integrated export for personal knowledge management.
 
 ## Installation
-1. Clone this repository: `git clone git@github.com:sakhiclawd/ai-webpage-summary.git`
+1. Clone this repository: `git clone git@github.com:sou/chrome-extensions.git`
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable **Developer mode** (toggle in the top right).
-4. Click **Load unpacked** and select the `ai-webpage-summary` folder.
+4. Click **Load unpacked** and select the `extensions/briefly-ai` folder.
 
 ## Architecture
 - **Manifest V3:** Modern Chrome extension standard.
