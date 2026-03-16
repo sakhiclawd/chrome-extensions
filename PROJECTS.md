@@ -10,10 +10,9 @@
 ## Extension Registry
 
 | ID | Project Name | Category | Status | Problem Solved | Core Features | Target Audience |  
-|:---|:---|:---|:---|:---|
-| 001 | Briefly AI | Productivity | Built | Production build v1.0.0-stable ready at `extensions/briefly-ai/dist`. Branding leak fixed. |
-| 002 | Competitor Website Analyzer | SEO / Marketing | Active | Scaffolding complete. Domain detection and UI skeleton implemented. | 
-
+|:---|:---|:---|:---|:---|:---|:---|
+| 001 | Briefly AI | Productivity | Release Ready | Production build v1.0.0-stable ready. Branding leaks removed. Assets generated. | AI summaries, Time saved stats | Professionals, Students |
+| 002 | Competitor Website Analyzer | SEO / Marketing | Active | Scaffolding complete. Domain detection and UI skeleton implemented. | Domain analysis, Tech stack | Marketers, SEOs |
 ---
 
 
