@@ -1,26 +1,22 @@
-# Store Description: Briefly AI
+# Briefly AI - Chrome Web Store Description
+
+## Tagline
+Get instant AI summaries of long articles and webpages with one click.
 
 ## Summary
-Briefly AI is a minimalist, powerful Chrome extension designed for professionals, students, and researchers. It uses advanced AI to summarize any web page, article, or blog post into concise, readable bullet points. Stop drowning in text—get the gist in seconds.
+Briefly AI helps you digest long-form content in seconds. Using advanced language models, it extracts key points and core insights from any webpage, allowing you to stay informed without spending hours reading.
 
 ## Key Features
-- **Instant Summarization:** Summarize long-form content with a single click.
-- **Estimated Reading Time:** Know how much time you'll save before you read.
-- **Manifest V3 Native:** Built on modern Chrome standards for maximum security and performance.
-- **Privacy Focused:** Your data is only processed when you trigger the summary.
-- **Minimalist UI:** A clean, distraction-free interface that blends into your workflow.
+- **One-Click Summarization**: Instantly summarize the active tab.
+- **Reading Time Estimation**: See how long the original article takes to read vs. the AI summary.
+- **Smart Formatting**: Summaries are presented in easy-to-read bullet points and headers.
+- **Privacy Focused**: Only processes content when you click the button.
 
 ## How to Use
-1. Pin Briefly AI to your toolbar.
-2. Navigate to any article or long webpage.
-3. Click the Briefly AI icon.
-4. Get your summary and key insights instantly.
+1. Navigate to any article or webpage.
+2. Click the Briefly AI icon in your extension toolbar.
+3. Click "Summarize Now".
+4. Read your concise summary and save time!
 
-## Perfect for:
-- **Researchers:** Quickly scan papers and articles.
-- **Students:** Get the core concepts of long study materials.
-- **Busy Professionals:** Stay informed without spending hours reading every detail.
-- **Content Curators:** Identify key points for newsletters or social media.
-
----
-Built by Krit for the Chrome Extension Library.
+## Privacy Policy
+Briefly AI does not store your browsing history. Content is processed only upon request to generate the summary. See our full privacy policy for more details.

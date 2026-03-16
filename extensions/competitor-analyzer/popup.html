@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 400px;
+      padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 0;
+      background: #fdfdfd;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+    .domain-badge {
+      font-size: 12px;
+      background: #eee;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #666;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    .metric-label { color: #666; }
+    .metric-value { font-weight: 600; color: #333; }
+    
+    .btn {
+      background: #FF5722;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .btn:hover { background: #E64A19; }
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #333;
+      margin-top: 5px;
+    }
+    #loading { text-align: center; padding: 20px; display: none; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">COMPETITOR ANALYZER</div>
+    <div id="domainName" class="domain-badge">...</div>
+  </div>
+
+  <div id="loading">Analyzing domain...</div>
+
+  <div id="content">
+    <div class="card">
+      <div class="card-title">Traffic Estimate</div>
+      <div class="metric-row">
+        <span class="metric-label">Monthly Visits</span>
+        <span id="monthlyVisits" class="metric-value">-</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Top Geography</span>
+        <span id="topGeo" class="metric-value">-</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Keywords & SEO</div>
+      <div class="metric-row">
+        <span class="metric-label">Ranking Keywords</span>
+        <span id="keywordCount" class="metric-value">-</span>
+      </div>
+      <div class="metric-row">
+        <span class="metric-label">Organic Strength</span>
+        <span id="seoStrength" class="metric-value">-</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Backlink Profile</div>
+      <div class="metric-row">
+        <span class="metric-label">Total Backlinks</span>
+        <span id="backlinkCount" class="metric-value">-</span>
+      </div>
+    </div>
+
+    <button id="saveBtn" class="btn">Save to PMLibrary</button>
+    <button id="viewBtn" class="btn btn-secondary">Open in PMLibrary</button>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

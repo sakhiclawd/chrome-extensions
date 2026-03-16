@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
   const summarizeBtn = document.getElementById('summarizeBtn');
-  const libraryBtn = document.getElementById('libraryBtn');
   const notionBtn = document.getElementById('notionBtn');
   const summaryBox = document.getElementById('summary');
   const readingTimeText = document.getElementById('readingTime');
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (response && response.summary && response.summary.trim().length > 0) {
           summaryBox.innerHTML = formatSummary(response.summary);
           summarizeBtn.style.display = 'none';
-          libraryBtn.style.display = 'flex';
           
           // Calculate and display time saved
           const summaryWordCount = response.summary.trim().split(/\s+/).length;

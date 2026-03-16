@@ -1,24 +1,39 @@
 # Screenshot Guide for Briefly AI
 
-To prepare the Briefly AI listing for the Chrome Web Store, please capture the following screenshots. For best results, use a window size of **1280x800** or higher.
+To make the Chrome Web Store listing look professional, please capture the following 4 screenshots. 
 
-## 1. The "Hero" Shot (Primary Value)
-- **Target:** A high-quality news article (e.g., TechCrunch, Verge, or Medium).
-- **Setup:** Open the Briefly AI popup.
-- **Visual:** Ensure the summary and key bullet points are fully loaded and visible. The background article should be recognizable but slightly dimmed or blurred to make the popup "pop".
-
-## 2. The "Efficiency" Shot
-- **Target:** A long research paper or technical blog.
-- **Visual:** Show the "Reading Time" feature prominently.
-- **Caption Idea:** "Save hours of reading time every week."
-
-## 3. The "Seamless Integration" Shot
-- **Setup:** Show the browser window with the Briefly AI icon pinned and the popup open.
-- **Visual:** Highlight how the extension fits into the Chrome interface without being intrusive.
-
-## 4. Branding & Promotional Assets
-- **Small Tile (440x280):** Use `icon_stable.svg` centered. Background: Blue Gradient (#2563eb to #1e40af). Text: "Briefly AI" in white Sans-Serif.
-- **Large Tile (1400x560):** Icon on the left, "Briefly AI: AI-Powered Web Summaries" on the right. Professional, clean, and modern.
+### Guidelines:
+- Use a high-resolution display.
+- Window size: 1280x800 or 1920x1080.
+- Theme: Use a clean, light-mode browser window.
 
 ---
-Built by Krit for the Chrome Extension Library.
+
+### Screenshot 1: The Main Action (Hero Image)
+- **Content**: A popular news article or long blog post (e.g., TechCrunch, Verge).
+- **Action**: Open the Briefly AI popup and show the "Summarize Now" button before it's clicked.
+- **Caption Idea**: "Summarize any webpage in one click."
+
+### Screenshot 2: The Result
+- **Content**: The same article as above.
+- **Action**: Show the generated summary in the popup with bullet points.
+- **Focus**: Highlight the "Time Saved" comparison (e.g., ~15 min read → 2 min read).
+- **Caption Idea**: "Save time with concise AI-generated insights."
+
+### Screenshot 3: Clean Formatting
+- **Content**: A dense technical document or research paper.
+- **Action**: Show a summary that features bold headers and bullet points.
+- **Caption Idea**: "Organized headers and bullet points for easy reading."
+
+### Screenshot 4: Context Awareness
+- **Content**: A product review or a recipe page.
+- **Action**: Show the extension successfully summarizing a non-news page.
+- **Caption Idea**: "Works on blogs, news, documents, and more."
+
+---
+
+### Additional Asset Needed:
+**Promotional Tile (440x280)**
+- Use the orange brand color (#FF5722).
+- Place the "Briefly AI" logo (white) in the center.
+- Use a bold, sans-serif font.
