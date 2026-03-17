@@ -1,20 +1,11 @@
 <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Professional Blue Gradient Background -->
-  <rect width="128" height="128" rx="28" fill="url(#paint0_linear)"/>
-  
-  <!-- Content/Summary Symbol -->
-  <rect x="34" y="38" width="60" height="6" rx="3" fill="white"/>
-  <rect x="34" y="54" width="60" height="6" rx="3" fill="white" fill-opacity="0.8"/>
-  <rect x="34" y="70" width="40" height="6" rx="3" fill="white" fill-opacity="0.6"/>
-  
-  <!-- AI Sparkle/Glow -->
-  <path d="M98 25L100.5 31.5L107 34L100.5 36.5L98 43L95.5 36.5L89 34L95.5 31.5L98 25Z" fill="#F8E71C"/>
-  <path d="M108 48L109.5 52L113.5 53.5L109.5 55L108 59L106.5 55L102.5 53.5L106.5 52L108 48Z" fill="#F8E71C" fill-opacity="0.8"/>
-
   <defs>
-    <linearGradient id="paint0_linear" x1="0" y1="0" x2="128" y2="128" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2563EB"/>
-      <stop offset="1" stop-color="#1E40AF"/>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF7043;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF5722;stop-opacity:1" />
     </linearGradient>
   </defs>
+  <rect x="10" y="10" width="108" height="108" rx="24" fill="url(#grad1)"/>
+  <path d="M35 45H93V53H35V45ZM35 60H93V68H35V60ZM35 75H75V83H35V75Z" fill="white"/>
+  <path d="M85 75L95 85L105 75" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
 </svg>
