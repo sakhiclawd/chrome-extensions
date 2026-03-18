@@ -57,7 +57,7 @@
     .metric-value { font-weight: 600; color: #333; }
     
     .btn {
-      background: #FF5722;
+      background: #2563EB;
       color: white;
       border: none;
       padding: 10px 15px;
@@ -67,12 +67,43 @@
       margin-top: 10px;
       font-size: 14px;
       font-weight: 500;
+      transition: background 0.2s;
     }
-    .btn:hover { background: #E64A19; }
+    .btn:hover { background: #1D4ED8; }
+    .btn:disabled { background: #94A3B8; cursor: not-allowed; }
     .btn-secondary {
-      background: #f0f0f0;
-      color: #333;
+      background: #F1F5F9;
+      color: #475569;
       margin-top: 5px;
+    }
+    .btn-secondary:hover { background: #E2E8F0; }
+    
+    .status-msg {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 8px;
+      display: none;
+    }
+    .status-success { color: #10B981; }
+    .status-error { color: #EF4444; }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .tab {
+      padding: 8px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #64748B;
+      border-bottom: 2px solid transparent;
+    }
+    .tab.active {
+      color: #2563EB;
+      border-bottom-color: #2563EB;
+      font-weight: 600;
     }
     #loading { text-align: center; padding: 20px; display: none; }
   </style>
@@ -86,40 +117,84 @@
   <div id="loading">Analyzing domain...</div>
 
   <div id="content">
-    <div class="card">
-      <div class="card-title">Traffic Estimate</div>
-      <div class="metric-row">
-        <span class="metric-label">Monthly Visits</span>
-        <span id="monthlyVisits" class="metric-value">-</span>
+    <div class="tabs">
+      <div id="tabSummary" class="tab active">Summary</div>
+      <div id="tabTraffic" class="tab">Traffic</div>
+      <div id="tabKeywords" class="tab">Keywords</div>
+      <div id="tabBacklinks" class="tab">Backlinks</div>
+    </div>
+
+    <div id="panelSummary">
+      <div class="card">
+        <div class="card-title">Analysis Overview</div>
+        <div class="metric-row">
+          <span class="metric-label">Status</span>
+          <span id="domainStatus" class="metric-value">Strong</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Category</span>
+          <span id="domainCategory" class="metric-value">SaaS / Productivity</span>
+        </div>
       </div>
-      <div class="metric-row">
-        <span class="metric-label">Top Geography</span>
-        <span id="topGeo" class="metric-value">-</span>
+      <div class="card">
+        <div class="card-title">Insights</div>
+        <ul id="insightsList" style="margin:0; padding-left:15px; font-size:13px; color:#475569;">
+          <li>Consistent organic traffic growth.</li>
+          <li>Strong referring domain authority.</li>
+          <li>Dominant in branded keyword search.</li>
+        </ul>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">Keywords & SEO</div>
-      <div class="metric-row">
-        <span class="metric-label">Ranking Keywords</span>
-        <span id="keywordCount" class="metric-value">-</span>
-      </div>
-      <div class="metric-row">
-        <span class="metric-label">Organic Strength</span>
-        <span id="seoStrength" class="metric-value">-</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">Backlink Profile</div>
-      <div class="metric-row">
-        <span class="metric-label">Total Backlinks</span>
-        <span id="backlinkCount" class="metric-value">-</span>
+    <div id="panelTraffic" style="display:none">
+      <div class="card">
+        <div class="card-title">Traffic Details</div>
+        <div class="metric-row">
+          <span class="metric-label">Monthly Visits</span>
+          <span id="monthlyVisits" class="metric-value">-</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Avg. Duration</span>
+          <span id="avgDuration" class="metric-value">2m 45s</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Bounce Rate</span>
+          <span id="bounceRate" class="metric-value">42.5%</span>
+        </div>
       </div>
     </div>
 
-    <button id="saveBtn" class="btn">Save to PMLibrary</button>
-    <button id="viewBtn" class="btn btn-secondary">Open in PMLibrary</button>
+    <div id="panelKeywords" style="display:none">
+      <div class="card">
+        <div class="card-title">SEO Visibility</div>
+        <div class="metric-row">
+          <span class="metric-label">Ranking Keywords</span>
+          <span id="keywordCount" class="metric-value">-</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Est. Monthly Cost</span>
+          <span id="estSEOCost" class="metric-value">$12.4K</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="panelBacklinks" style="display:none">
+      <div class="card">
+        <div class="card-title">Authority Profile</div>
+        <div class="metric-row">
+          <span class="metric-label">Total Backlinks</span>
+          <span id="backlinkCount" class="metric-value">-</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Referring Domains</span>
+          <span id="refDomains" class="metric-value">845</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="saveBtn" class="btn">Save Snapshot</button>
+    <button id="viewBtn" class="btn btn-secondary">Open Library</button>
+    <div id="statusMsg" class="status-msg"></div>
   </div>
 
   <script src="popup.js"></script>
