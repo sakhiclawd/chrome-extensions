@@ -11,8 +11,6 @@
 
 | ID | Project Name | Category | Status | Problem Solved | Core Features | Target Audience |  
 |:---|:---|:---|:---|:---|:---|:---|
-| 001 | Briefly AI | Productivity | Release Ready | Production build v1.0.0-stable ready. Branding leaks removed. Assets generated. | AI summaries, Time saved stats | Professionals, Students |
-| 002 | Competitor Website Analyzer | SEO / Marketing | Built | Scaffolding complete. Domain detection and UI skeleton implemented. | Domain analysis, Tech stack | Marketers, SEOs |
+| 001 | Briefly AI | Productivity | **Built** | Production build v1.0.1-stable ready at `extensions/briefly-ai/dist`. Final icons synced. | AI summaries, Time saved stats | Professionals, Students |
+| 002 | Competitor Website Analyzer | SEO / Marketing | **Active** | Scaffolding complete. v0.1.0 logic implemented. Implementation continues tonight. | Domain analysis, Tech stack | Marketers, SEOs |
 ---
-
-
