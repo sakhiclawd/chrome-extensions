@@ -1,98 +1,156 @@
 document.addEventListener('DOMContentLoaded', function() {
-  const domainNameText = document.getElementById('domainName');
-  const monthlyVisits = document.getElementById('monthlyVisits');
-  const keywordCount = document.getElementById('keywordCount');
-  const backlinkCount = document.getElementById('backlinkCount');
-  const saveBtn = document.getElementById('saveBtn');
-  const viewBtn = document.getElementById('viewBtn');
-  const loading = document.getElementById('loading');
-  const content = document.getElementById('content');
-  const statusMsg = document.getElementById('statusMsg');
+    const elements = {
+        domainName: document.getElementById('domainName'),
+        monthlyVisits: document.getElementById('monthlyVisits'),
+        avgDuration: document.getElementById('avgDuration'),
+        bounceRate: document.getElementById('bounceRate'),
+        keywordCount: document.getElementById('keywordCount'),
+        estSEOCost: document.getElementById('estSEOCost'),
+        backlinkCount: document.getElementById('backlinkCount'),
+        refDomains: document.getElementById('refDomains'),
+        domainStatus: document.getElementById('domainStatus'),
+        domainCategory: document.getElementById('domainCategory'),
+        insightsList: document.getElementById('insightsList'),
+        saveBtn: document.getElementById('saveBtn'),
+        viewBtn: document.getElementById('viewBtn'),
+        loading: document.getElementById('loading'),
+        content: document.getElementById('content'),
+        statusMsg: document.getElementById('statusMsg')
+    };
 
-  const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks'];
-  let currentDomain = '';
+    let currentDomain = '';
+    let currentMetrics = null;
 
-  // Tab switching logic
-  const tabNames = ['Summary', 'Traffic', 'Keywords', 'Backlinks'];
-  tabNames.forEach(tab => {
-    const tabEl = document.getElementById(`tab${tab}`);
-    const panelEl = document.getElementById(`panel${tab}`);
-    
-    tabEl.addEventListener('click', () => {
-      // Deactivate all
-      tabNames.forEach(t => {
-        const tEl = document.getElementById(`tab${t}`);
-        const pEl = document.getElementById(`panel${t}`);
-        if (tEl) tEl.classList.remove('active');
-        if (pEl) pEl.style.display = 'none';
-      });
-      // Activate selected
-      tabEl.classList.add('active');
-      panelEl.style.display = 'block';
+    // Tab switching logic
+    const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks'];
+    tabs.forEach(tab => {
+        const tabEl = document.getElementById(`tab${tab}`);
+        const panelEl = document.getElementById(`panel${tab}`);
+        
+        tabEl.addEventListener('click', () => {
+            tabs.forEach(t => {
+                document.getElementById(`tab${t}`).classList.remove('active');
+                document.getElementById(`panel${t}`).style.display = 'none';
+            });
+            tabEl.classList.add('active');
+            panelEl.style.display = 'block';
+        });
     });
-  });
 
-  // Get domain from content script
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    if (!tabs[0] || !tabs[0].id) {
-        domainNameText.innerText = "No active tab";
-        return;
-    }
-    
-    chrome.tabs.sendMessage(tabs[0].id, {action: "getDomainInfo"}, function(response) {
-      if (response && response.hostname) {
-        currentDomain = response.rootDomain || response.hostname;
-        domainNameText.innerText = currentDomain;
-        analyzeDomain(currentDomain);
-      } else {
-        domainNameText.innerText = "Check Tab";
-      }
+    // Initialize - Get domain and fetch metrics
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        if (!tabs[0] || !tabs[0].id) {
+            elements.domainName.innerText = "No active tab";
+            return;
+        }
+        
+        chrome.tabs.sendMessage(tabs[0].id, {action: "getDomainInfo"}, function(response) {
+            if (response && response.hostname) {
+                currentDomain = response.rootDomain || response.hostname;
+                elements.domainName.innerText = currentDomain;
+                analyzeDomain(currentDomain);
+            } else {
+                elements.domainName.innerText = "Error Accessing Tab";
+                elements.loading.innerText = "Please refresh the page and try again.";
+            }
+        });
     });
-  });
 
-  async function analyzeDomain(domain) {
-    loading.style.display = 'block';
-    content.style.display = 'none';
+    /**
+     * Send message to background script to fetch analysis
+     */
+    async function analyzeDomain(domain) {
+        elements.loading.style.display = 'block';
+        elements.content.style.display = 'none';
 
-    try {
-      // Future API integration
-      // const response = await fetch(`https://www.pmdirectory.net/api/competitor-stats?domain=${domain}`);
-      // const data = await response.json();
-      
-      // Simulation for MV3 Demo
-      setTimeout(() => {
-        monthlyVisits.innerText = '412K';
-        keywordCount.innerText = '8.4K';
-        backlinkCount.innerText = '12.1K';
-        
-        loading.style.display = 'none';
-        content.style.display = 'block';
-      }, 800);
-
-    } catch (error) {
-      console.error('Analysis error:', error);
-      loading.innerText = "Error analyzing domain.";
+        chrome.runtime.sendMessage({action: "fetchMetrics", domain: domain}, function(response) {
+            if (response && response.success) {
+                updateUI(response.metrics);
+                currentMetrics = response.metrics;
+            } else {
+                elements.loading.innerText = "Analysis failed. Check your connection.";
+                console.error('Fetch failed:', response ? response.error : 'Unknown');
+            }
+        });
     }
-  }
 
-  saveBtn.addEventListener('click', async function() {
-    saveBtn.disabled = true;
-    saveBtn.innerText = "Saving...";
-    
-    // Simulate API call to PMLibrary
-    setTimeout(() => {
-        saveBtn.innerText = "Save Snapshot";
-        saveBtn.disabled = false;
+    /**
+     * Update popup UI with fetched data
+     */
+    function updateUI(metrics) {
+        // Summary
+        elements.domainStatus.innerText = metrics.summary.status;
+        elements.domainCategory.innerText = metrics.summary.category;
         
-        statusMsg.innerText = "Successfully saved to PMLibrary";
-        statusMsg.className = "status-msg status-success";
-        statusMsg.style.display = "block";
-        
-        setTimeout(() => { statusMsg.style.display = "none"; }, 3000);
-    }, 1200);
-  });
+        // Insights
+        elements.insightsList.innerHTML = '';
+        metrics.insights.forEach(insight => {
+            const li = document.createElement('li');
+            li.textContent = insight;
+            elements.insightsList.appendChild(li);
+        });
 
-  viewBtn.addEventListener('click', function() {
-    chrome.tabs.create({ url: 'https://www.pmdirectory.net/library' });
-  });
+        // Traffic
+        elements.monthlyVisits.innerText = metrics.traffic.monthlyVisits;
+        elements.avgDuration.innerText = metrics.traffic.avgDuration;
+        elements.bounceRate.innerText = metrics.traffic.bounceRate;
+
+        // Keywords
+        elements.keywordCount.innerText = metrics.seo.keywordCount;
+        elements.estSEOCost.innerText = metrics.seo.estMonthlyCost;
+
+        // Backlinks
+        elements.backlinkCount.innerText = metrics.backlinks.totalBacklinks;
+        elements.refDomains.innerText = metrics.backlinks.refDomains;
+        
+        elements.loading.style.display = 'none';
+        elements.content.style.display = 'block';
+    }
+
+    /**
+     * Save snapshot event
+     */
+    elements.saveBtn.addEventListener('click', function() {
+        if (!currentMetrics) return;
+
+        elements.saveBtn.disabled = true;
+        elements.saveBtn.innerText = "Saving...";
+        
+        chrome.runtime.sendMessage({
+            action: "saveSnapshot", 
+            data: {
+                domain: currentDomain,
+                metrics: currentMetrics
+            }
+        }, function(response) {
+            elements.saveBtn.innerText = "Save Snapshot";
+            elements.saveBtn.disabled = false;
+            
+            if (response && response.success) {
+                showStatus("Successfully saved to PMLibrary", "success");
+            } else {
+                showStatus("Save failed: Service unreachable", "error");
+            }
+        });
+    });
+
+    /**
+     * Open PMLibrary dashboard
+     */
+    elements.viewBtn.addEventListener('click', function() {
+        chrome.tabs.create({ url: 'https://www.pmdirectory.net/library' });
+    });
+
+    /**
+     * Utility to show status message
+     */
+    function showStatus(msg, type) {
+        elements.statusMsg.innerText = msg;
+        elements.statusMsg.className = `status-msg status-${type}`;
+        elements.statusMsg.style.display = "block";
+        
+        setTimeout(() => { 
+            elements.statusMsg.style.display = "none"; 
+        }, 3000);
+    }
 });

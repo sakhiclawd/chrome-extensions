@@ -1,29 +1,27 @@
 # Competitor Website Analyzer
 
 ## Overview
-A high-performance Chrome extension built on Manifest V3 that provides instant competitor metrics for any active website. It is designed to bridge the gap between browsing a competitor's site and logging actionable data into the **PMLibrary**.
+A Manifest V3 Chrome extension providing real-time competitor snapshots (traffic, keywords, backlinks) and seamless integration with the **PMLibrary** platform.
 
 ## Architecture
-- **Framework:** Vanilla JavaScript, Modular Manifest V3.
-- **Components:**
-    - `background.js`: Service worker for lifecycle management and potential proxy handling.
-    - `content.js`: Isolated world script for URL detection and domain normalization.
-    - `popup.js/html`: Responsive tabbed UI for data visualization.
-- **Storage:** Local storage for session caching, PMLibrary API for persistence.
+- **`manifest.json`**: Manifest V3 configuration with strict host permissions for `pmdirectory.net`.
+- **`background.js`**: Service worker handling asynchronous API calls to PMLibrary and managing data flow.
+- **`content.js`**: Lightweight script for active tab domain detection and normalization.
+- **`popup.js`**: UI controller managing tab states and data rendering.
+- **`popup.html`**: Tabbed interface for structured domain metrics.
 
-## Key Features
-- **Instant Traffic Pulse:** Monthly visits, bounce rate, and avg. duration.
-- **SEO Visibility:** Ranking keyword counts and estimated organic strength.
-- **Authority Tracking:** Backlink volume and referring domain counts.
-- **PMLibrary Sync:** One-click "Save Snapshot" to store domain data in the central repository.
+## Features
+- **Domain Normalization**: Automatically extracts the root domain from any active tab.
+- **Multi-Metric View**: Displays traffic estimates, SEO visibility, and backlink authority profiles.
+- **One-Click Save**: Pushes domain snapshots to the user's PMLibrary account via a REST API.
+- **Modular Data Handling**: Backend logic separated into service workers to ensure long-running task reliability.
 
-## Installation
-1. Navigate to `chrome://extensions/`
-2. Enable **Developer mode**.
-3. Click **Load unpacked**.
-4. Select the `extensions/competitor-analyzer` folder.
+## Permissions & Security
+- `activeTab`: Required for domain detection on the current website.
+- `storage`: For local caching of recent analyses.
+- `host_permissions`: Strictly limited to `https://www.pmdirectory.net/*` to ensure cross-origin request security.
 
-## Technical Notes
-- **V3 Compliance:** Uses `action` instead of `browser_action`.
-- **Domain Normalization:** Smart detection of root domains vs. subdomains.
-- **UI Styling:** Standardized Blue/Slate palette for professional engineering look.
+## Development Status
+- **Current Version**: 0.2.0 (Active Development)
+- **Completed**: Core UI, background communication framework, domain detection, and API integration scaffolding.
+- **Next**: Finalize PMLibrary production API endpoints and implement historical data comparison.
