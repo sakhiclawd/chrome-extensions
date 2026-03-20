@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let currentSubdomain = '';
   let currentRootDomain = '';
   let currentMetrics = null;
+  let isDemoMode = false;
 
   // Tab switching logic
   const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks'];
@@ -61,6 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSubdomain = response.hostname;
         currentRootDomain = response.rootDomain || response.hostname;
 
+        // Check for Demo Mode (if on pmdirectory.net or specifically triggered)
+        if (currentSubdomain.includes('pmdirectory.net')) {
+          isDemoMode = true;
+          elements.title = document.querySelector('.title');
+          if (elements.title) elements.title.innerText = "BRIEFLY ANALYZER (DEMO)";
+        }
+
         // Default to root domain as per common marketing analysis needs
         currentDomain = currentRootDomain;
         if (elements.scopeSelector) elements.scopeSelector.value = 'root';
@@ -80,6 +88,27 @@ document.addEventListener('DOMContentLoaded', function() {
   async function analyzeDomain(domain) {
     elements.loading.style.display = 'block';
     elements.content.style.display = 'none';
+
+    // If in demo mode, provide high-signal mockup data
+    if (isDemoMode) {
+      setTimeout(() => {
+        const demoMetrics = {
+          summary: { status: "Dominant", category: "B2B / SaaS / Marketplace" },
+          traffic: { monthlyVisits: "1.2M+", avgDuration: "4m 52s", bounceRate: "38.4%" },
+          seo: { keywordCount: "42.5K", estMonthlyCost: "$185K" },
+          backlinks: { totalBacklinks: "840K", refDomains: "4.2K" },
+          insights: [
+            "&bull; Massive organic footprint with 42K+ ranking keywords.",
+            "&bull; Exceptionally high engagement (4m+ avg session duration).",
+            "&bull; Tier-1 backlink profile from high-authority domains.",
+            "&bull; Primary traffic source: Search (62%) and Direct (28%)."
+          ]
+        };
+        updateUI(demoMetrics);
+        currentMetrics = demoMetrics;
+      }, 600);
+      return;
+    }
 
     chrome.runtime.sendMessage({ action: "fetchMetrics", domain: domain }, function(response) {
       if (response && response.success) {
