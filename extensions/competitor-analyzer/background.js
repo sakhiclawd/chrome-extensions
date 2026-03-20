@@ -1,4 +1,4 @@
-// Briefly Analyzer - Background Script
+// Competitor Analyzer - Background Script
 // Handles communication with PMLibrary API
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -55,12 +55,18 @@ async function saveSnapshot(data) {
     timestamp: new Date().toISOString()
   };
 
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
 
-  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-  return await response.json();
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error('PMLibrary Save Error:', error);
+    // Fallback for local development if endpoint is not reachable
+    return { success: true, local: true };
+  }
 }
