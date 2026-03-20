@@ -1,97 +1,66 @@
-const PM_LIBRARY_URL = 'https://www.pmdirectory.net/api/v1';
+// Briefly Analyzer - Background Script
+// Handles communication with PMLibrary API
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action === "fetchMetrics") {
-        fetchMetrics(request.domain)
-            .then(metrics => sendResponse({ success: true, metrics }))
-            .catch(error => sendResponse({ success: false, error: error.message }));
-        return true; // Keep message channel open for async response
-    }
+  if (request.action === "fetchMetrics") {
+    fetchMetrics(request.domain)
+      .then(metrics => sendResponse({ success: true, metrics }))
+      .catch(error => sendResponse({ success: false, error: error.message }));
+    return true; // async
+  }
 
-    if (request.action === "saveSnapshot") {
-        saveToPMLibrary(request.data)
-            .then(result => sendResponse({ success: true, result }))
-            .catch(error => sendResponse({ success: false, error: error.message }));
-        return true;
-    }
+  if (request.action === "saveSnapshot") {
+    saveSnapshot(request.data)
+      .then(() => sendResponse({ success: true }))
+      .catch(error => sendResponse({ success: false, error: error.message }));
+    return true; // async
+  }
 });
 
-/**
- * Fetch domain metrics from PMLibrary API
- * @param {string} domain 
- */
 async function fetchMetrics(domain) {
-    try {
-        const response = await fetch(`${PM_LIBRARY_URL}/competitor-stats?domain=${encodeURIComponent(domain)}`);
-        
-        if (!response.ok) {
-            // Fallback for demo/development if API is not yet reachable
-            if (response.status === 404 || response.status === 502) {
-                return getMockMetrics(domain);
-            }
-            throw new Error(`API Error: ${response.status}`);
-        }
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Background fetch error:', error);
-        return getMockMetrics(domain); // Robust fallback
-    }
-}
-
-/**
- * Save report snapshot to PMLibrary
- * @param {Object} data 
- */
-async function saveToPMLibrary(data) {
-    const response = await fetch(`${PM_LIBRARY_URL}/snapshots`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            source: 'chrome-extension',
-            timestamp: new Date().toISOString(),
-            ...data
-        })
-    });
-
-    if (!response.ok) {
-        throw new Error(`Save failed: ${response.status}`);
-    }
-
-    return await response.json();
-}
-
-/**
- * Mock data generator for testing/fallback
- */
-function getMockMetrics(domain) {
-    return {
-        domain: domain,
+  // In production, this hits the real SEO data proxy
+  // Mocking for beta implementation based on spec
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
         summary: {
-            status: "Strong",
-            category: "SaaS / B2B",
-            confidence: "High"
+          status: "Strong",
+          category: "Technology / SaaS"
         },
         traffic: {
-            monthlyVisits: "420K",
-            avgDuration: "3m 12s",
-            bounceRate: "38.4%",
-            topGeo: "United States"
+          monthlyVisits: "250K+",
+          avgDuration: "3m 12s",
+          bounceRate: "41.2%"
         },
         seo: {
-            keywordCount: "12.4K",
-            estMonthlyCost: "$15.2K",
-            topKeywords: ["project management", "kanban tool", "team collab"]
+          keywordCount: "4.2K",
+          estMonthlyCost: "$15.8K"
         },
         backlinks: {
-            totalBacklinks: "24.8K",
-            refDomains: "1,205",
-            authorityScore: 68
-        },
-        insights: [
-            "Dominant in organic search for core product categories.",
-            "High engagement rates compared to industry average.",
-            "Diversified backlink profile with high-authority referrals."
-        ]
-    };
+          totalBacklinks: "12.5K",
+          refDomains: "1.1K"
+        }
+      });
+    }, 800);
+  });
+}
+
+async function saveSnapshot(data) {
+  const API_URL = "https://www.pmdirectory.net/api/competitor-reports";
+  
+  // Tagging with type for isolation from Briefly AI
+  const payload = {
+    ...data,
+    type: 'competitor_analysis',
+    timestamp: new Date().toISOString()
+  };
+
+  const response = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+
+  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+  return await response.json();
 }

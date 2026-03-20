@@ -57,7 +57,7 @@
     .metric-value { font-weight: 600; color: #333; }
     
     .btn {
-      background: #2563EB;
+      background: #FF5722;
       color: white;
       border: none;
       padding: 10px 15px;
@@ -69,7 +69,7 @@
       font-weight: 500;
       transition: background 0.2s;
     }
-    .btn:hover { background: #1D4ED8; }
+    .btn:hover { background: #E64A19; }
     .btn:disabled { background: #94A3B8; cursor: not-allowed; }
     .btn-secondary {
       background: #F1F5F9;
@@ -101,8 +101,8 @@
       border-bottom: 2px solid transparent;
     }
     .tab.active {
-      color: #2563EB;
-      border-bottom-color: #2563EB;
+      color: #FF5722;
+      border-bottom-color: #FF5722;
       font-weight: 600;
     }
     #loading { text-align: center; padding: 20px; display: none; }
@@ -110,8 +110,14 @@
 </head>
 <body>
   <div class="header">
-    <div class="title">COMPETITOR ANALYZER</div>
-    <div id="domainName" class="domain-badge">...</div>
+    <div class="title">BRIEFLY ANALYZER</div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <select id="scopeSelector" style="font-size: 11px; padding: 2px; border: 1px solid #ddd; border-radius: 4px; background: #fff; color: #444;">
+        <option value="root">Root Domain</option>
+        <option value="sub">Subdomain</option>
+      </select>
+      <div id="domainName" class="domain-badge">...</div>
+    </div>
   </div>
 
   <div id="loading">Analyzing domain...</div>
