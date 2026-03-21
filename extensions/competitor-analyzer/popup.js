@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     loading: document.getElementById('loading'),
     content: document.getElementById('content'),
     statusMsg: document.getElementById('statusMsg'),
-    scopeSelector: document.getElementById('scopeSelector')
+    scopeSelector: document.getElementById('scopeSelector'),
+    competitorList: document.getElementById('competitorList')
   };
 
   let currentDomain = '';
@@ -26,25 +27,30 @@ document.addEventListener('DOMContentLoaded', function() {
   let isDemoMode = false;
 
   // Tab switching logic
-  const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks'];
+  const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks', 'Competitors'];
   tabs.forEach(tab => {
     const tabEl = document.getElementById(`tab${tab}`);
     const panelEl = document.getElementById(`panel${tab}`);
 
-    tabEl.addEventListener('click', () => {
-      tabs.forEach(t => {
-        document.getElementById(`tab${t}`).classList.remove('active');
-        document.getElementById(`panel${t}`).style.display = 'none';
+    if (tabEl && panelEl) {
+      tabEl.addEventListener('click', () => {
+        tabs.forEach(t => {
+          const tEl = document.getElementById(`tab${t}`);
+          const pEl = document.getElementById(`panel${t}`);
+          if (tEl) tEl.classList.remove('active');
+          if (pEl) pEl.style.display = 'none';
+        });
+        tabEl.classList.add('active');
+        panelEl.style.display = 'block';
       });
-      tabEl.classList.add('active');
-      panelEl.style.display = 'block';
-    });
+    }
   });
 
   // Scope Selector Logic
   if (elements.scopeSelector) {
     elements.scopeSelector.addEventListener('change', () => {
-      currentDomain = elements.scopeSelector.value === 'root' ? currentRootDomain : currentSubdomain;
+      const selectedScope = elements.scopeSelector.value;
+      currentDomain = selectedScope === 'root' ? currentRootDomain : currentSubdomain;
       elements.domainName.innerText = currentDomain;
       analyzeDomain(currentDomain);
     });
@@ -97,6 +103,11 @@ document.addEventListener('DOMContentLoaded', function() {
           traffic: { monthlyVisits: "1.2M+", avgDuration: "4m 52s", bounceRate: "38.4%" },
           seo: { keywordCount: "42.5K", estMonthlyCost: "$185K" },
           backlinks: { totalBacklinks: "840K", refDomains: "4.2K" },
+          competitors: [
+            { domain: "rival-saas.com", overlap: "58%" },
+            { domain: "big-market-inc.com", overlap: "45%" },
+            { domain: "niche-player.io", overlap: "32%" }
+          ],
           insights: [
             "&bull; Massive organic footprint with 42K+ ranking keywords.",
             "&bull; Exceptionally high engagement (4m+ avg session duration).",
@@ -169,6 +180,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Backlinks
     elements.backlinkCount.innerText = metrics.backlinks.totalBacklinks;
     elements.refDomains.innerText = metrics.backlinks.refDomains;
+
+    // Competitors
+    if (elements.competitorList) {
+      elements.competitorList.innerHTML = '';
+      if (metrics.competitors && metrics.competitors.length > 0) {
+        metrics.competitors.forEach(comp => {
+          const row = document.createElement('div');
+          row.className = 'metric-row';
+          row.innerHTML = `<span class="metric-label">${comp.domain}</span><span class="metric-value">${comp.overlap}</span>`;
+          elements.competitorList.appendChild(row);
+        });
+      } else {
+        elements.competitorList.innerHTML = '<div style="font-size:12px;color:#888;">No competitor data available.</div>';
+      }
+    }
 
     elements.loading.style.display = 'none';
     elements.content.style.display = 'block';

@@ -39,7 +39,12 @@ async function fetchMetrics(domain) {
         backlinks: {
           totalBacklinks: "12.5K",
           refDomains: "1.1K"
-        }
+        },
+        competitors: [
+          { domain: "competitor1.com", overlap: "42%" },
+          { domain: "competitor2.io", overlap: "38%" },
+          { domain: "market-leader.net", overlap: "25%" }
+        ]
       });
     }, 800);
   });
