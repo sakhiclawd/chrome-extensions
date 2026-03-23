@@ -59,24 +59,25 @@
     .btn {
       background: #000000;
       color: white;
-      border: none;
+      border: 1px solid #000;
       padding: 10px 15px;
       border-radius: 6px;
       cursor: pointer;
       width: 100%;
       margin-top: 10px;
       font-size: 14px;
-      font-weight: 500;
-      transition: background 0.2s;
+      font-weight: 600;
+      transition: all 0.2s;
     }
     .btn:hover { background: #333333; }
-    .btn:disabled { background: #94A3B8; cursor: not-allowed; }
+    .btn:disabled { background: #94A3B8; border-color: #94A3B8; cursor: not-allowed; }
     .btn-secondary {
-      background: #F1F5F9;
+      background: transparent;
       color: #000000;
-      margin-top: 5px;
+      border: 1px solid #000;
+      margin-top: 8px;
     }
-    .btn-secondary:hover { background: #E2E8F0; }
+    .btn-secondary:hover { background: #F8FAFC; }
     
     .status-msg {
       font-size: 12px;

@@ -50,43 +50,59 @@ document.addEventListener('DOMContentLoaded', function() {
   if (elements.scopeSelector) {
     elements.scopeSelector.addEventListener('change', () => {
       const selectedScope = elements.scopeSelector.value;
-      currentDomain = selectedScope === 'root' ? currentRootDomain : currentSubdomain;
-      elements.domainName.innerText = currentDomain;
-      analyzeDomain(currentDomain);
+      const newDomain = selectedScope === 'root' ? currentRootDomain : currentSubdomain;
+      if (newDomain !== currentDomain) {
+        currentDomain = newDomain;
+        elements.domainName.innerText = currentDomain;
+        analyzeDomain(currentDomain);
+      }
     });
   }
 
   // Initialize - Get domain and fetch metrics
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    if (!tabs[0] || !tabs[0].id) {
-      elements.domainName.innerText = "No active tab";
+    if (!tabs[0] || !tabs[0].url || tabs[0].url.startsWith('chrome://')) {
+      elements.domainName.innerText = "System Page";
+      elements.loading.innerText = "Cannot analyze browser system pages.";
+      elements.loading.style.display = 'block';
+      elements.content.style.display = 'none';
       return;
     }
 
     chrome.tabs.sendMessage(tabs[0].id, { action: "getDomainInfo" }, function(response) {
-      if (response && response.hostname) {
+      if (chrome.runtime.lastError) {
+        // Fallback if content script isn't ready
+        const url = new URL(tabs[0].url);
+        currentSubdomain = url.hostname;
+        const parts = currentSubdomain.split('.');
+        currentRootDomain = parts.length > 2 ? parts.slice(-2).join('.') : currentSubdomain;
+        setupInitialDomain();
+      } else if (response && response.hostname) {
         currentSubdomain = response.hostname;
         currentRootDomain = response.rootDomain || response.hostname;
-
-        // Check for Demo Mode (if on pmdirectory.net or specifically triggered)
-        if (currentSubdomain.includes('pmdirectory.net')) {
-          isDemoMode = true;
-          elements.title = document.querySelector('.title');
-          if (elements.title) elements.title.innerText = "BRIEFLY ANALYZER (DEMO)";
-        }
-
-        // Default to root domain as per common marketing analysis needs
-        currentDomain = currentRootDomain;
-        if (elements.scopeSelector) elements.scopeSelector.value = 'root';
-
-        elements.domainName.innerText = currentDomain;
-        analyzeDomain(currentDomain);
+        setupInitialDomain();
       } else {
-        elements.domainName.innerText = "Error Accessing Tab";
-        elements.loading.innerText = "Please refresh the page and try again.";
+        elements.domainName.innerText = "Error";
+        elements.loading.innerText = "Please refresh the page.";
       }
     });
   });
+
+  function setupInitialDomain() {
+    // Check for Demo Mode
+    if (currentSubdomain.includes('pmdirectory.net')) {
+      isDemoMode = true;
+      const titleEl = document.querySelector('.title');
+      if (titleEl) titleEl.innerText = "COMPETITOR ANALYZER (DEMO)";
+    }
+
+    // Default to root domain
+    currentDomain = currentRootDomain;
+    if (elements.scopeSelector) elements.scopeSelector.value = 'root';
+
+    elements.domainName.innerText = currentDomain;
+    analyzeDomain(currentDomain);
+  }
 
   /**
    * Send message to background script to fetch analysis
