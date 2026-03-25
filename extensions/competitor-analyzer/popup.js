@@ -89,8 +89,10 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   function setupInitialDomain() {
-    // Check for Demo Mode
-    if (currentSubdomain.includes('pmdirectory.net')) {
+    // Check for Demo Mode (development testing)
+    const isLocalDev = currentSubdomain === 'localhost' || currentSubdomain === '127.0.0.1';
+    
+    if (currentSubdomain.includes('pmdirectory.net') || isLocalDev) {
       isDemoMode = true;
       const titleEl = document.querySelector('.title');
       if (titleEl) titleEl.innerText = "COMPETITOR ANALYZER (DEMO)";
@@ -156,13 +158,37 @@ document.addEventListener('DOMContentLoaded', function() {
    */
   function generateInsights(metrics) {
     const insights = [];
-    const visits = parseInt(metrics.traffic.monthlyVisits.replace(/[^0-9]/g, ''));
-    const backlinks = parseInt(metrics.backlinks.totalBacklinks.replace(/[^0-9]/g, ''));
+    const visitsStr = metrics.traffic.monthlyVisits || "0";
+    const visits = parseInt(visitsStr.replace(/[^0-9]/g, ''));
+    const backlinksStr = metrics.backlinks.totalBacklinks || "0";
+    const backlinks = parseInt(backlinksStr.replace(/[^0-9]/g, ''));
+    const bounceRate = parseFloat(metrics.traffic.bounceRate) || 100;
 
-    if (visits > 100000) insights.push("&bull; High volume monthly traffic detected.");
-    if (backlinks > 1000) insights.push("&bull; Strong backlink profile indicating authority.");
-    if (parseFloat(metrics.traffic.bounceRate) < 45) insights.push("&bull; Healthy engagement with low bounce rate.");
-    if (insights.length === 0) insights.push("&bull; Emerging domain with growing footprint.");
+    if (visits > 1000000) {
+      insights.push("Dominant market leader with 1M+ monthly visits.");
+    } else if (visits > 100000) {
+      insights.push("High-volume established player with steady traffic.");
+    } else {
+      insights.push("Growing market participant with specific niche focus.");
+    }
+
+    if (backlinks > 10000) {
+      insights.push("Exceptional domain authority with 10K+ backlinks.");
+    } else if (backlinks > 1000) {
+      insights.push("Strong backlink profile indicating solid SEO authority.");
+    }
+
+    if (bounceRate < 40) {
+      insights.push("Highly engaging content with very low bounce rate (<40%).");
+    } else if (bounceRate < 50) {
+      insights.push("Healthy user engagement with optimal bounce rate levels.");
+    }
+
+    const keywordCountStr = metrics.seo.keywordCount || "0";
+    const keywordCount = parseInt(keywordCountStr.replace(/[^0-9]/g, ''));
+    if (keywordCount > 5000) {
+      insights.push("Broad organic visibility across 5K+ ranking keywords.");
+    }
 
     return insights;
   }
@@ -174,13 +200,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Summary
     elements.domainStatus.innerText = metrics.summary.status;
     elements.domainCategory.innerText = metrics.summary.category;
+    
+    // Status visual cue
+    const statusColor = metrics.summary.status === 'Dominant' || metrics.summary.status === 'Strong' ? '#10B981' : '#F59E0B';
+    elements.domainStatus.style.color = statusColor;
 
     // Insights
     elements.insightsList.innerHTML = '';
     metrics.insights.forEach(insight => {
       const li = document.createElement('li');
       li.style.listStyle = "none";
-      li.innerHTML = insight;
+      li.style.marginBottom = "8px";
+      li.style.display = "flex";
+      li.style.alignItems = "flex-start";
+      li.innerHTML = `<span style="margin-right:8px; color:#94A3B8;">&bull;</span><span>${insight.replace(/^&bull;\s*/, '')}</span>`;
       elements.insightsList.appendChild(li);
     });
 
@@ -204,11 +237,12 @@ document.addEventListener('DOMContentLoaded', function() {
         metrics.competitors.forEach(comp => {
           const row = document.createElement('div');
           row.className = 'metric-row';
-          row.innerHTML = `<span class="metric-label">${comp.domain}</span><span class="metric-value">${comp.overlap}</span>`;
+          row.style.padding = '4px 0';
+          row.innerHTML = `<span class="metric-label" style="font-weight:500;">${comp.domain}</span><span class="metric-value" style="color:#6366F1;">${comp.overlap}</span>`;
           elements.competitorList.appendChild(row);
         });
       } else {
-        elements.competitorList.innerHTML = '<div style="font-size:12px;color:#888;">No competitor data available.</div>';
+        elements.competitorList.innerHTML = '<div style="font-size:12px;color:#94A3B8;text-align:center;padding:10px;">No competitor data available for this domain.</div>';
       }
     }
 
