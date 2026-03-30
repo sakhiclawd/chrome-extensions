@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tab Manager</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Tab Manager</h1>
+  </header>
+
+  <div class="toolbar">
+    <input type="text" id="search-input" placeholder="Search tabs by title or URL..." autocomplete="off">
+  </div>
+
+  <div class="actions">
+    <button id="btn-group" class="btn btn-secondary">Group by Domain</button>
+    <button id="btn-save-session" class="btn btn-primary">Save Session</button>
+  </div>
+
+  <div id="tab-container"></div>
+
+  <section class="sessions-section">
+    <h2 class="section-title">Saved Sessions</h2>
+    <ul id="sessions-list"></ul>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>

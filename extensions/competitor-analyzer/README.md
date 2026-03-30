@@ -22,6 +22,6 @@ A Manifest V3 Chrome extension providing real-time competitor snapshots (traffic
 - `host_permissions`: Strictly limited to `https://www.pmdirectory.net/*` to ensure cross-origin request security.
 
 ## Development Status
-- **Current Version**: 1.0.1 (Production Stable)
-- **Completed**: Core UI, background communication framework, domain detection, API integration, and rebranding.
-- **Next**: Add comparative domain analysis (side-by-side view).
+- **Current Version**: 1.0.2 (Production Stable)
+- **Completed**: Core UI, background communication framework, domain detection, API integration, rebranding, and side-by-side comparison module.
+- **Next**: Implementation of export to CSV/PDF functionality.

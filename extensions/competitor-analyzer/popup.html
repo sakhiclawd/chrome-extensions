@@ -160,6 +160,7 @@
       <div id="tabKeywords" class="tab">Keywords</div>
       <div id="tabBacklinks" class="tab">Backlinks</div>
       <div id="tabCompetitors" class="tab">Competitors</div>
+      <div id="tabCompare" class="tab">Compare</div>
     </div>
 
     <div id="panelSummary">
@@ -239,6 +240,31 @@
             <span class="metric-value">-</span>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div id="panelCompare" style="display:none">
+      <div class="card">
+        <div class="card-title">Side-by-Side Comparison</div>
+        <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+          <input type="text" id="compareInput" placeholder="Enter domain to compare..." style="flex:1; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 12px;">
+          <button id="compareBtn" style="padding: 6px 12px; background: #000; color: #fff; border: none; border-radius: 4px; font-size: 12px; cursor: pointer;">Compare</button>
+        </div>
+        <div id="compareResults" style="display:none">
+          <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
+            <thead>
+              <tr style="border-bottom: 1px solid #eee;">
+                <th style="text-align: left; padding: 4px 0;">Metric</th>
+                <th id="compTitle1" style="text-align: right; padding: 4px 0; color: #6366F1;">-</th>
+                <th id="compTitle2" style="text-align: right; padding: 4px 0; color: #10B981;">-</th>
+              </tr>
+            </thead>
+            <tbody id="compareTableBody">
+              <!-- Rows injected via JS -->
+            </tbody>
+          </table>
+        </div>
+        <div id="compareLoading" style="display:none; text-align: center; padding: 10px; font-size: 12px; color: #94A3B8;">Fetching data...</div>
       </div>
     </div>
 

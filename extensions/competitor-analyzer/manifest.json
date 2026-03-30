@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Competitor Analyzer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Quickly understand competitor traffic and SEO metrics for any website.",
   "permissions": [
     "activeTab"

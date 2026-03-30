@@ -17,7 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
     content: document.getElementById('content'),
     statusMsg: document.getElementById('statusMsg'),
     scopeSelector: document.getElementById('scopeSelector'),
-    competitorList: document.getElementById('competitorList')
+    competitorList: document.getElementById('competitorList'),
+    compareBtn: document.getElementById('compareBtn'),
+    compareInput: document.getElementById('compareInput'),
+    compareResults: document.getElementById('compareResults'),
+    compareLoading: document.getElementById('compareLoading'),
+    compTitle1: document.getElementById('compTitle1'),
+    compTitle2: document.getElementById('compTitle2'),
+    compareTableBody: document.getElementById('compareTableBody')
   };
 
   let currentDomain = '';
@@ -27,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let isDemoMode = false;
 
   // Tab switching logic
-  const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks', 'Competitors'];
+  const tabs = ['Summary', 'Traffic', 'Keywords', 'Backlinks', 'Competitors', 'Compare'];
   tabs.forEach(tab => {
     const tabEl = document.getElementById(`tab${tab}`);
     const panelEl = document.getElementById(`panel${tab}`);
@@ -283,6 +290,57 @@ document.addEventListener('DOMContentLoaded', function() {
   elements.viewBtn.addEventListener('click', function() {
     chrome.tabs.create({ url: 'https://www.pmdirectory.net/library' });
   });
+
+  /**
+   * Comparison Logic
+   */
+  if (elements.compareBtn) {
+    elements.compareBtn.addEventListener('click', async function() {
+      const compareDomain = elements.compareInput.value.trim().toLowerCase();
+      if (!compareDomain || compareDomain === currentDomain) return;
+
+      elements.compareLoading.style.display = 'block';
+      elements.compareResults.style.display = 'none';
+      elements.compareBtn.disabled = true;
+
+      chrome.runtime.sendMessage({ action: "fetchMetrics", domain: compareDomain }, function(response) {
+        elements.compareLoading.style.display = 'none';
+        elements.compareBtn.disabled = false;
+
+        if (response && response.success) {
+          renderComparison(currentMetrics, response.metrics, currentDomain, compareDomain);
+        } else {
+          showStatus("Failed to fetch comparison data", "error");
+        }
+      });
+    });
+  }
+
+  function renderComparison(m1, m2, d1, d2) {
+    elements.compTitle1.innerText = d1;
+    elements.compTitle2.innerText = d2;
+    elements.compareTableBody.innerHTML = '';
+
+    const rows = [
+      ['Visits', m1.traffic.monthlyVisits, m2.traffic.monthlyVisits],
+      ['Keywords', m1.seo.keywordCount, m2.seo.keywordCount],
+      ['Backlinks', m1.backlinks.totalBacklinks, m2.backlinks.totalBacklinks],
+      ['Bounce', m1.traffic.bounceRate, m2.traffic.bounceRate]
+    ];
+
+    rows.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.style.borderBottom = '1px solid #f1f5f9';
+      tr.innerHTML = `
+        <td style="padding: 8px 0; color: #64748B;">${row[0]}</td>
+        <td style="padding: 8px 0; text-align: right; font-weight: 500;">${row[1]}</td>
+        <td style="padding: 8px 0; text-align: right; font-weight: 500;">${row[2]}</td>
+      `;
+      elements.compareTableBody.appendChild(tr);
+    });
+
+    elements.compareResults.style.display = 'block';
+  }
 
   /**
    * Utility to show status message
