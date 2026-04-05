@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Snippet Manager</title>
+  <link rel="stylesheet" href="popup.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-title">
+        <span class="logo">📋</span>
+        <h1>Code Snippets</h1>
+      </div>
+      <div class="header-actions">
+        <button id="btn-add" class="btn btn-primary" title="Add Snippet">
+          <span class="btn-icon">+</span>
+        </button>
+        <button id="btn-export" class="btn btn-icon-only" title="Export">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Search & Filter -->
+    <div class="search-section">
+      <div class="search-bar">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search snippets..." autocomplete="off">
+      </div>
+      <div class="filter-row">
+        <select id="language-filter" class="filter-select">
+          <option value="">All Languages</option>
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="typescript">TypeScript</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+          <option value="go">Go</option>
+          <option value="rust">Rust</option>
+          <option value="sql">SQL</option>
+          <option value="shell">Shell</option>
+          <option value="other">Other</option>
+        </select>
+        <select id="sort-filter" class="filter-select">
+          <option value="date-desc">Newest First</option>
+          <option value="date-asc">Oldest First</option>
+          <option value="name-asc">Name (A-Z)</option>
+          <option value="name-desc">Name (Z-A)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Snippet List -->
+    <main class="snippet-list" id="snippet-list">
+      <!-- Snippets will be rendered here -->
+    </main>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="empty-state" style="display: none;">
+      <div class="empty-icon">📝</div>
+      <h3>No snippets yet</h3>
+      <p>Save your first code snippet to get started</p>
+      <button id="btn-empty-add" class="btn btn-primary">Add First Snippet</button>
+    </div>
+
+    <!-- No Results State -->
+    <div class="no-results" id="no-results" style="display: none;">
+      <div class="empty-icon">🔍</div>
+      <h3>No matches found</h3>
+      <p>Try adjusting your search or filters</p>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+      <div class="modal">
+        <div class="modal-header">
+          <h2 id="modal-title">Add Snippet</h2>
+          <button class="btn-close" id="btn-close-modal">&times;</button>
+        </div>
+        <form id="snippet-form">
+          <div class="form-group">
+            <label for="snippet-title">Title</label>
+            <input type="text" id="snippet-title" placeholder="e.g., Array to JSON" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="snippet-language">Language</label>
+              <select id="snippet-language" required>
+                <option value="javascript">JavaScript</option>
+                <option value="python">Python</option>
+                <option value="html">HTML</option>
+                <option value="css">CSS</option>
+                <option value="typescript">TypeScript</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="go">Go</option>
+                <option value="rust">Rust</option>
+                <option value="sql">SQL</option>
+                <option value="shell">Shell</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="snippet-tags">Tags (comma separated)</label>
+              <input type="text" id="snippet-tags" placeholder="e.g., utility, array, json">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="snippet-code">Code</label>
+            <textarea id="snippet-code" placeholder="Paste your code here..." required rows="8"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="btn-cancel">Cancel</button>
+            <button type="submit" class="btn btn-primary">Save Snippet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "extension_name": {
+    "message": "Code Snippet Manager",
+    "description": "Name of the extension"
+  },
+  "extension_description": {
+    "message": "Save, organize, search, and quickly access code snippets from any webpage",
+    "description": "Description of the extension"
+  }
+}
